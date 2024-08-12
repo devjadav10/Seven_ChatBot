@@ -6,30 +6,31 @@ const typeSchema = mongoose.Schema(
             type: String,
             required: false,
         },
-        return: {
+        riskType: {
             type: String,
             required: false,
         },
-        expenseRatio: {
+        returns : {
             type: String,
             required: false,
         },
+        expenseRatio : {
+            type: String,
+            required: false,
+        }
     }
 );
 
 const mfSchema = mongoose.Schema(
     {
-        Low:[typeSchema]
+        fund : [typeSchema]
     },
     {
-        Medium:[typeSchema]
-    },
-    {
-        High:[typeSchema]
+        timestamps: true // Optional: adds createdAt and updatedAt timestamps
     }
 )
 
 
-const Product = mongoose.model('Product', productSchema);
+const MutualFund = mongoose.model('MutualFund', mfSchema);
 
-module.exports = Product;
+module.exports = MutualFund;

@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const Product = require('./models/productModel')
 const {analyzeFinancialData, analyzeGoalData} = require('./gemini')
 const {goalAnalysis} = require('./goal');
+const {getTopFundsByRisk, filterAndSortFunds} = require('./filteredmf')
+const MutualFund = require('./models/mfModel')
 const app = express()
 
 app.use(express.json())
@@ -147,6 +149,54 @@ app.get('/goal', async(req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
       }
 });  
+
+app.post('/mutualFund', async(req, res) => {
+    try {
+        console.log(req.body);
+        const mutualFund = await MutualFund.create({fund : req.body});
+        res.status(200).json(mutualFund);
+        
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message})
+    }
+})
+
+app.get('/topmf', async(req, res) => {
+    try{
+        const latestMutualFundList = await MutualFund.findOne({})
+        .sort({ createdAt: -1 });
+      console.log("latestMutualFundList", latestMutualFundList.fund);
+      let topmfResult = await getTopFundsByRisk(latestMutualFundList.fund);
+      console.log("topmf Result", topmfResult);
+      res.status(200).json(topmfResult);
+
+    }catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+}); 
+
+app.get('/filteredmf', async(req, res) => {
+    try{
+        const { riskType, lowerLimit, upperLimit } = req.query;
+        const options = {
+            riskType: riskType || null,     // Filter by risk type
+            lowerLimit: lowerLimit || null,// Minimum 1YrReturn
+            upperLimit: upperLimit || null     // Maximum 1YrReturn
+        };
+        const filteredMutualFundList = await MutualFund.findOne({})
+        .sort({ createdAt: -1 });
+      console.log("filteredMutualFundList", filteredMutualFundList.fund);
+      let filteredMutualFundListResult = await filterAndSortFunds(filteredMutualFundList.fund, options);
+      console.log("topmf Result", filteredMutualFundListResult);
+      res.status(200).json(filteredMutualFundListResult);
+
+    }catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+});
   
 mongoose.
 connect('mongodb+srv://ankuringole98:150398@finchatbot.kzwg0wc.mongodb.net/?retryWrites=true&w=majority&appName=FinChatBot')
