@@ -17,7 +17,7 @@ const calculateTotalAmountSip = (sipAmount, years, annualInterestRate) => {
     // Calculate the total amount accumulated
     const totalAmount = sipAmount * (((1 + monthlyInterestRate) ** totalMonths - 1) / monthlyInterestRate) * (1 + monthlyInterestRate);
  
-    Math.ceil(totalAmount / 1000) * 1000;
+    return Math.ceil(totalAmount / 1000) * 1000;
 }
 
 const calculateLumpsum = (goalAmount, time, returns) => {

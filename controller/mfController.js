@@ -48,11 +48,11 @@ const analyze = async (req, res) => {
 
 const goal = async(req, res) => {
   try{
-      const { amount, time, returns } = req.query;
-    if (!amount || !time || !returns ){
+      const { amount, time, returns, type } = req.query;
+    if (!amount || !time || !returns || !type){
       res.status(400).json({error:"Missing Required Params"});
     }
-    let goalResult = await goalAnalysis(amount, time, returns);
+    let goalResult = await goalAnalysis(amount, time, returns, type);
     console.log("Goal Result", goalResult);
     res.status(200).json(goalResult);
 
