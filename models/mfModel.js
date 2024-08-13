@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+// import mongoose from 'mongoose'
+import mongoose from "./index.js";
 
 const typeSchema = mongoose.Schema(
     {
@@ -33,4 +34,8 @@ const mfSchema = mongoose.Schema(
 
 const MutualFund = mongoose.model('MutualFund', mfSchema);
 
-module.exports = MutualFund;
+// module.exports = {
+//     MutualFund
+// };
+
+export default MutualFund;

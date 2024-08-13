@@ -1,22 +1,15 @@
 import express from 'express';
+import mfController from '../../controller/mfController.js';
 
 const router = express.Router();
 
-router.post('/upload', upload.single('file'), fileUpload);
+router.get('/topMf', mfController.topMf);
 
-// FE use this endpoint ( /auth/google ) route to google auth
-router.get('/auth/google',
-    passport.authenticate('google', { session: false, scope: ['profile', 'email'] }));
+router.get('/filteredMF', mfController.filteredmf);
 
-router.get('/auth/google/callback',
-    passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_HOST}/account/login` }),
-    function (req, res) {
-        const { user, token } = req.user;
-        setTokenCookies(res, token);
+router.get('/analyze', mfController.analyze);
 
-        //TODO
-        res.redirect(`${process.env.FRONTEND_HOST}/homePage`);
-    }
-);
+router.get('/goal', mfController.goal);
 
+router.post('./mutualFund', mfController.mutualFund );
 export default router;
