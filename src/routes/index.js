@@ -12,4 +12,5 @@ router.get('/analyze', mfController.analyze);
 router.get('/goal', mfController.goal);
 
 router.post('./mutualFund', mfController.mutualFund );
+
 export default router;

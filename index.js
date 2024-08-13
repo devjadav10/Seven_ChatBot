@@ -1,14 +1,16 @@
 import express from 'express';
 // import dotenv from 'dotenv';
 import AppRoutes from './src/routes/index.js';
-// import cors from 'cors';
+import cors from 'cors';
 
 // dotenv.config();
 const PORT = 3000;
 
 const app = express();
 
-// app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000'
+    }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', AppRoutes);
