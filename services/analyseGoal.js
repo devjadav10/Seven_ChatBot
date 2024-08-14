@@ -70,7 +70,7 @@ async function goalAnalysis(amount, time, returns, type) {
             return { error: "No Such Interest Rate Possible" };
         }
         const result = {
-            "Monthly Investment Amount" : sip,
+            "Investment Amount" : sip,
             "Investment In Equity Funds" : amountInHigh,
             "Investment In Hybrid Fund": amountInMed,
             "Investment In Debt Fund": amountInLow,
