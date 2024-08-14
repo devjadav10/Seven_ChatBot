@@ -1,5 +1,8 @@
 import MutualFund from "../models/mfModel.js";
-import  analyzeFinancialData  from "../services/analyseExpense.js";
+import analyzeExpense from "../services/analyseExpense.js";
+// Destructure the functions from the imported object
+const { analyzeFinancialData, extractJson } = analyzeExpense;
+// import {analyzeFinancialData, extractjson}  from "../services/analyseExpense.js";
 import goalAnalysis  from "../services/analyseGoal.js";
 import filterAndSortFunds from "../services/filterFunds.js";
 import getTopFundsByRisk from "../services/topFunds.js";
@@ -31,12 +34,13 @@ const analyze = async (req, res) => {
   //   res.send('Hello NODE API');
     let analysisResult = await analyzeFinancialData(name, age, income, essential, savings, leisure, healthcare, debt, transport);
     console.log("Analysis Result", analysisResult);
-    if (analysisResult.startsWith('```json') || analysisResult.endsWith('```')) {
-      console.log("Inside slice");
-      analysisResult = analysisResult.slice(7, -3); // Remove the leading and trailing backticks
-      }
-  console.log("Analysis Result 2", analysisResult);
-    const parsedResult = JSON.parse(analysisResult);
+    // if (analysisResult.startsWith('```json') || analysisResult.endsWith('```')) {
+    //   console.log("Inside slice");
+    //   analysisResult = analysisResult.slice(7, -3); // Remove the leading and trailing backticks
+    //   }
+    const analysisResultJSON = await extractJson(analysisResult);
+    console.log("Analysis Result 2", analysisResultJSON);
+    const parsedResult = JSON.parse(analysisResultJSON);
   //   res.status(200).json({ response: parsedResult });
   res.status(200).json(parsedResult);
 

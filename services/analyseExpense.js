@@ -85,7 +85,27 @@ Give logical and reasonable reasons dont give vague reasons and make the reasons
     return result.response.text();
   }  
 
+async function extractJson(analysisResult) {
+  // Find the index of the first '{' and the last '}'
+  const startIndex = analysisResult.indexOf('{');
+  const endIndex = analysisResult.lastIndexOf('}');
+
+  // Check if both indices are valid
+  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+      // Slice the string to get the JSON part
+      analysisResult = analysisResult.slice(startIndex, endIndex + 1);
+      console.log("Extracted JSON:", analysisResult);
+  } else {
+      console.log("No valid JSON found.");
+      analysisResult = null; // Or handle this case as needed
+  }
+
+  return analysisResult;
+}
 //   module.exports = {
 //     analyzeFinancialData
 //   };
-  export default analyzeFinancialData;
+  export default {
+    analyzeFinancialData,
+    extractJson,
+  };
